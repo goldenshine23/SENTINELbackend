@@ -17,7 +17,6 @@ from app.database import engine, SessionLocal
 from app.models import Base, User  # Ensure models are registered before table creation
 from app.routes import router as api_router  # Includes auth and bot routes
 from execution import run_trading_for_all_users  # Your trading logic
-from app.routes import router as api_router
 
 # === Create DB tables once ===
 Base.metadata.create_all(bind=engine)
@@ -34,13 +33,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# === Register all routes ===
+# === Register all routes under /api ===
 app.include_router(api_router, prefix="/api")
 
-# === Root endpoint ===
+# === Root endpoint to fix 404 ===
 @app.get("/")
-def read_root():
-    return {"message": "🚀 Welcome to SentinelAI Bot API"}
+def root():
+    return {"message": "🚀 Welcome to SentinelAI Bot API. Visit /api for endpoints."}
 
 # === Helper: Get all active users ===
 def get_all_active_users():
@@ -62,11 +61,19 @@ async def main():
 # === Entry point for async trading when run directly ===
 if __name__ == "__main__":
     asyncio.run(main())
-# backend/main.py
+from fastapi.routing import APIRoute
 
-from fastapi import FastAPI
-from app.routes import router as api_router
-
-app = FastAPI(title="SentinelAI Bot")
-
-app.include_router(api_router)
+@app.get("/api/routes")
+def list_routes():
+    """
+    Returns a list of all registered API routes.
+    """
+    routes = []
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            routes.append({
+                "path": route.path,
+                "name": route.name,
+                "methods": list(route.methods)
+            })
+    return {"routes": routes}
