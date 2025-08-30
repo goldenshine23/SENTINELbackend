@@ -1,0 +1,53 @@
+📘 SentinelAI Bot API Documentation
+API Information
+Title: SentinelAI Bot
+Version: 0.1.0
+Base URL: http://127.0.0.1:8000
+Authentication Endpoints
+POST /auth/register
+Register a new user.
+Request Body (JSON):
+{
+  "username": "string",
+  "password": "string"
+}
+Response: 200 OK
+POST /auth/login
+Login with existing user credentials.
+Request Body (x-www-form-urlencoded):
+grant_type: password
+username: string
+password: string
+(optional: scope, client_id, client_secret)
+Response: 200 OK
+{
+  "access_token": "string",
+  "token_type": "string"
+}
+Bot Endpoints
+POST /api/bot/api/bot/run-bot
+Run the trading bot with broker credentials.
+Request Body (JSON):
+{
+  "broker_login": "string",
+  "broker_password": "string",
+  "server": "string"
+}
+Response: 200 OK
+GET /api/bot/api/bot/status
+Get the current status of the bot.
+Response: 200 OK
+GET /api/bot/api/bot/example
+Get example response or usage of the bot.
+Response: 200 OK
+Error Responses
+HTTP 422 Validation Error:
+{
+  "detail": [
+    {
+      "loc": ["field"],
+      "msg": "error message",
+      "type": "error type"
+    }
+  ]
+}

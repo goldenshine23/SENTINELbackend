@@ -1,0 +1,26 @@
+# SentinelAI Bot - Backend
+
+### 🔥 Description
+
+A powerful, AI-driven MetaTrader trading backend that supports multi-user connection using MetaAPI. It automates trading using smart money concepts, price action, and institutional trading logic.
+
+---
+
+## 🛠 Setup Instructions
+
+```bash
+# Clone the repo
+git clone <your-repo-url>
+
+# Navigate into backend
+cd SentinelAI-Bot/backend
+
+# Create virtual env
+python -m venv venv
+source venv/bin/activate   # on Windows use: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run server
+uvicorn main:app --reload
